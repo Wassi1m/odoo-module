@@ -1,0 +1,4 @@
+sudo systemctl enable docker
+sudo docker update --restart unless-stopped odoo-db odoo
+
+sudo docker ps | grep odoo

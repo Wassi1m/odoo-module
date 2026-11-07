@@ -1,0 +1,23 @@
+{
+    'name': 'Gestion VTC (type Uber / Bolt)',
+    'version': '18.0.1.0.0',
+    'summary': 'Véhicules, chauffeurs, clients et courses',
+    'category': 'Services',
+    'author': 'Wassim May',
+    'license': 'LGPL-3',
+    'depends': ['base', 'mail'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'data/category_data.xml',
+        'views/category_views.xml',
+        'views/vehicle_views.xml',
+        'views/driver_views.xml',
+        'views/client_views.xml',
+        'views/ride_views.xml',
+        'views/menus.xml',
+    ],
+    'demo': ['data/demo.xml'],
+    'application': True,
+    'installable': True,
+}

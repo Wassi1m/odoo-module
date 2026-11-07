@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vtc_category,vtc.category,model_vtc_category,base.group_user,1,1,1,1
+access_vtc_vehicle,vtc.vehicle,model_vtc_vehicle,base.group_user,1,1,1,1
+access_vtc_driver,vtc.driver,model_vtc_driver,base.group_user,1,1,1,1
+access_vtc_client,vtc.client,model_vtc_client,base.group_user,1,1,1,1
+access_vtc_ride,vtc.ride,model_vtc_ride,base.group_user,1,1,1,1

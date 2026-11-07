@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vtc_ride_tree" model="ir.ui.view">
+        <field name="name">vtc.ride.tree</field>
+        <field name="model">vtc.ride</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'" decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="client_id"/>
+                <field name="driver_id"/>
+                <field name="category_id"/>
+                <field name="pickup"/>
+                <field name="destination"/>
+                <field name="distance_km"/>
+                <field name="price" sum="Total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vtc_ride_form" model="ir.ui.view">
+        <field name="name">vtc.ride.form</field>
+        <field name="model">vtc.ride</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_accept" type="object" string="Accepter" class="btn-primary"
+                            invisible="state != 'requested'"/>
+                    <button name="action_start" type="object" string="Démarrer" class="btn-primary"
+                            invisible="state != 'accepted'"/>
+                    <button name="action_finish" type="object" string="Terminer" class="btn-success"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" type="object" string="Annuler"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="requested,accepted,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group string="Trajet">
+                            <field name="client_id"/>
+                            <field name="pickup"/>
+                            <field name="destination"/>
+                            <field name="distance_km"/>
+                            <field name="duration_min"/>
+                        </group>
+                        <group string="Affectation">
+                            <field name="category_id"/>
+                            <field name="driver_id" readonly="state not in ('requested',)"/>
+                            <field name="vehicle_id" readonly="state not in ('requested',)"/>
+                        </group>
+                        <group string="Paiement">
+                            <field name="price"/>
+                            <field name="payment_method"/>
+                            <field name="rating" invisible="state != 'done'"/>
+                        </group>
+                        <group string="Horaires">
+                            <field name="request_date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vtc_ride_kanban" model="ir.ui.view">
+        <field name="name">vtc.ride.kanban</field>
+        <field name="model">vtc.ride</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" records_draggable="0">
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <span class="float-end"><field name="price"/> TND</span>
+                            <div><field name="client_id"/></div>
+                            <div class="text-muted"><field name="pickup"/> → <field name="destination"/></div>
+                            <div><field name="driver_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="vtc_ride_search" model="ir.ui.view">
+        <field name="name">vtc.ride.search</field>
+        <field name="model">vtc.ride</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="driver_id"/>
+                <filter name="active_rides" string="En cours / à traiter"
+                        domain="[('state','in',('requested','accepted','in_progress'))]"/>
+                <filter name="done" string="Terminées" domain="[('state','=','done')]"/>
+                <filter name="today" string="Aujourd'hui"
+                        domain="[('request_date','&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Grouper par">
+                    <filter name="g_driver" string="Chauffeur" context="{'group_by': 'driver_id'}"/>
+                    <filter name="g_cat" string="Catégorie" context="{'group_by': 'category_id'}"/>
+                    <filter name="g_day" string="Jour" context="{'group_by': 'request_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vtc_ride_graph" model="ir.ui.view">
+        <field name="name">vtc.ride.graph</field>
+        <field name="model">vtc.ride</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="driver_id"/>
+                <field name="price" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="vtc_ride_pivot" model="ir.ui.view">
+        <field name="name">vtc.ride.pivot</field>
+        <field name="model">vtc.ride</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="request_date" interval="month" type="row"/>
+                <field name="category_id" type="col"/>
+                <field name="price" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_vtc_ride" model="ir.actions.act_window">
+        <field name="name">Courses</field>
+        <field name="res_model">vtc.ride</field>
+        <field name="view_mode">kanban,list,form,graph,pivot</field>
+    </record>
+
+    <record id="action_vtc_ride_report" model="ir.actions.act_window">
+        <field name="name">Analyse des courses</field>
+        <field name="res_model">vtc.ride</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="context">{'search_default_done': 1}</field>
+    </record>
+</odoo>

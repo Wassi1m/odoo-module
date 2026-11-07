@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vtc_vehicle_tree" model="ir.ui.view">
+        <field name="name">vtc.vehicle.tree</field>
+        <field name="model">vtc.vehicle</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'available'" decoration-warning="state == 'on_ride'"
+                  decoration-danger="state == 'maintenance'">
+                <field name="plate"/>
+                <field name="brand"/>
+                <field name="model"/>
+                <field name="year"/>
+                <field name="category_id"/>
+                <field name="driver_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vtc_vehicle_form" model="ir.ui.view">
+        <field name="name">vtc.vehicle.form</field>
+        <field name="model">vtc.vehicle</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="plate" placeholder="123 TU 4567"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="brand"/>
+                            <field name="model"/>
+                            <field name="year"/>
+                            <field name="color"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="driver_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Historique des courses">
+                            <field name="ride_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="client_id"/>
+                                    <field name="request_date"/>
+                                    <field name="price" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vtc_vehicle_kanban" model="ir.ui.view">
+        <field name="name">vtc.vehicle.kanban</field>
+        <field name="model">vtc.vehicle</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="brand"/> <field name="model"/></strong>
+                            <div><field name="plate"/></div>
+                            <div><field name="category_id"/> — <field name="driver_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="vtc_vehicle_search" model="ir.ui.view">
+        <field name="name">vtc.vehicle.search</field>
+        <field name="model">vtc.vehicle</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="plate"/>
+                <field name="brand"/>
+                <field name="driver_id"/>
+                <filter name="available" string="Disponibles" domain="[('state','=','available')]"/>
+                <filter name="maintenance" string="En maintenance" domain="[('state','=','maintenance')]"/>
+                <group expand="0" string="Grouper par">
+                    <filter name="g_cat" string="Catégorie" context="{'group_by': 'category_id'}"/>
+                    <filter name="g_state" string="Statut" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_vtc_vehicle" model="ir.actions.act_window">
+        <field name="name">Véhicules</field>
+        <field name="res_model">vtc.vehicle</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+</odoo>

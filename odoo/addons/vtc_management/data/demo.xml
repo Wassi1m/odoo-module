@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_driver_1" model="vtc.driver">
+        <field name="name">Ahmed Ben Ali</field>
+        <field name="phone">+216 20 111 222</field>
+        <field name="license_number">TN-458921</field>
+        <field name="state">online</field>
+    </record>
+    <record id="demo_driver_2" model="vtc.driver">
+        <field name="name">Sami Trabelsi</field>
+        <field name="phone">+216 22 333 444</field>
+        <field name="license_number">TN-778812</field>
+        <field name="state">online</field>
+    </record>
+
+    <record id="demo_vehicle_1" model="vtc.vehicle">
+        <field name="plate">123 TU 4567</field>
+        <field name="brand">Kia</field>
+        <field name="model">Picanto</field>
+        <field name="year">2022</field>
+        <field name="color">Blanc</field>
+        <field name="category_id" ref="cat_eco"/>
+        <field name="driver_id" ref="demo_driver_1"/>
+    </record>
+    <record id="demo_vehicle_2" model="vtc.vehicle">
+        <field name="plate">210 TU 8899</field>
+        <field name="brand">Volkswagen</field>
+        <field name="model">Passat</field>
+        <field name="year">2023</field>
+        <field name="color">Noir</field>
+        <field name="category_id" ref="cat_comfort"/>
+        <field name="driver_id" ref="demo_driver_2"/>
+    </record>
+
+    <record id="demo_client_1" model="vtc.client">
+        <field name="name">Lina Mansour</field>
+        <field name="phone">+216 55 000 111</field>
+        <field name="email">lina@example.com</field>
+    </record>
+    <record id="demo_client_2" model="vtc.client">
+        <field name="name">Youssef Gharbi</field>
+        <field name="phone">+216 98 765 432</field>
+    </record>
+
+    <record id="demo_ride_1" model="vtc.ride">
+        <field name="client_id" ref="demo_client_1"/>
+        <field name="category_id" ref="cat_eco"/>
+        <field name="driver_id" ref="demo_driver_1"/>
+        <field name="vehicle_id" ref="demo_vehicle_1"/>
+        <field name="pickup">Lac 2, Tunis</field>
+        <field name="destination">Aéroport Tunis-Carthage</field>
+        <field name="distance_km">9.5</field>
+        <field name="duration_min">18</field>
+        <field name="state">done</field>
+        <field name="rating">5</field>
+    </record>
+    <record id="demo_ride_2" model="vtc.ride">
+        <field name="client_id" ref="demo_client_2"/>
+        <field name="category_id" ref="cat_comfort"/>
+        <field name="pickup">La Marsa</field>
+        <field name="destination">Centre-ville Tunis</field>
+        <field name="distance_km">18</field>
+        <field name="duration_min">30</field>
+    </record>
+</odoo>

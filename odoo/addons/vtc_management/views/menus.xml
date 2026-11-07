@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_vtc_root" name="VTC" sequence="10" web_icon="base,static/description/icon.png"/>
+
+    <menuitem id="menu_vtc_rides" name="Courses" parent="menu_vtc_root" action="action_vtc_ride" sequence="1"/>
+
+    <menuitem id="menu_vtc_fleet" name="Flotte" parent="menu_vtc_root" sequence="2"/>
+    <menuitem id="menu_vtc_vehicles" name="Véhicules" parent="menu_vtc_fleet" action="action_vtc_vehicle" sequence="1"/>
+    <menuitem id="menu_vtc_drivers" name="Chauffeurs" parent="menu_vtc_fleet" action="action_vtc_driver" sequence="2"/>
+
+    <menuitem id="menu_vtc_clients" name="Clients" parent="menu_vtc_root" action="action_vtc_client" sequence="3"/>
+
+    <menuitem id="menu_vtc_reporting" name="Rapports" parent="menu_vtc_root" action="action_vtc_ride_report" sequence="4"/>
+
+    <menuitem id="menu_vtc_config" name="Configuration" parent="menu_vtc_root" sequence="99"/>
+    <menuitem id="menu_vtc_categories" name="Catégories &amp; tarifs" parent="menu_vtc_config"
+              action="action_vtc_category" sequence="1"/>
+</odoo>

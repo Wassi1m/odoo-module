@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vtc_category_tree" model="ir.ui.view">
+        <field name="name">vtc.category.tree</field>
+        <field name="model">vtc.category</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="base_fare"/>
+                <field name="price_per_km"/>
+                <field name="price_per_min"/>
+                <field name="min_fare"/>
+                <field name="seats"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_vtc_category" model="ir.actions.act_window">
+        <field name="name">Catégories &amp; tarifs</field>
+        <field name="res_model">vtc.category</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>
